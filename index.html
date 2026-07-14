@@ -335,8 +335,8 @@
 /* ============== CẤU HÌNH DỊCH VỤ MIỄN PHÍ ==============
    Điền URL + anon key Supabase của bạn vào đây sau khi làm theo README.md.
    Nếu để trống, web vẫn chạy bình thường với dữ liệu mẫu có sẵn (chế độ offline demo). */
-const SUPABASE_URL = 'https://tupejjhiligqumairntw.supabase.co'; // ví dụ: 'https://xxxxxxxx.supabase.co'
-const SUPABASE_ANON_KEY = 'sb_publishable_4SZnTGcpYk-SIdVSKWpo-g_RCuBshtu'; // anon public key, KHÔNG phải service_role key
+const SUPABASE_URL = ''; // ví dụ: 'https://xxxxxxxx.supabase.co'
+const SUPABASE_ANON_KEY = ''; // anon public key, KHÔNG phải service_role key
 
 let supabaseClient = null;
 let dbReady = false;
@@ -1067,7 +1067,7 @@ async function vietLoiTuVanAI(outfit){
 - Phong cách: ${PHONGCACH_LABEL[state.phongCach] || ''}
 - Ngân sách: ${NGANSACH_LABEL[state.nganSach] || ''}
 - Sản phẩm gợi ý: ${tenSp}
-Giải thích ngắn gọn vì sao outfit này hợp với khách. Không cần chào hỏi lại, đi thẳng vào tư vấn. Không dùng markdown.`;
+Giải thích ngắn gọn vì sao outfit này hợp với khách. Không cần chào hỏi lại, đi thẳng vào tư vấn. Chỉ trả lời bằng đúng đoạn văn xuôi tự nhiên đó, không thêm tiêu đề, không đánh số câu, không dùng markdown, không giải thích cấu trúc câu trả lời.`;
 
   const aiReply = await hoiAI(prompt);
   thinkingMsg.remove(); // xoá dòng "đang nhờ AI viết..."
@@ -1143,7 +1143,7 @@ askAiBtn.onclick = async () => {
   addMsg(q, 'user');
 
   const context = `(Bối cảnh khách hàng, nếu có: giới tính ${state.gioiTinh||'chưa rõ'}, ${state.cao?state.cao+'cm':''} ${state.nang?state.nang+'kg':''}, phong cách ${PHONGCACH_LABEL[state.phongCach]||'chưa rõ'}, ngân sách ${NGANSACH_LABEL[state.nganSach]||'chưa rõ'}.)`;
-  const prompt = `Bạn là stylist tư vấn thời trang thân thiện cho shop "Thước Lụa". Khách hỏi: "${q}". ${context} Trả lời ngắn gọn (2-4 câu), tự nhiên, hữu ích, không dùng markdown.`;
+  const prompt = `Bạn là stylist tư vấn thời trang thân thiện cho shop "Thước Lụa". Khách hỏi: "${q}". ${context} Trả lời ngắn gọn (2-4 câu), tự nhiên, hữu ích. Chỉ trả lời bằng đúng đoạn văn xuôi đó, không thêm tiêu đề, không đánh số câu, không dùng markdown, không giải thích cấu trúc câu trả lời.`;
 
   const reply = await hoiAI(prompt);
   if(reply){
