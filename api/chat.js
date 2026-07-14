@@ -45,13 +45,19 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Model miễn phí, hạn mức rộng rãi (free tier của Google AI Studio)
-    const model = 'gemini-2.0-flash';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    // Model + endpoint hiện tại của Gemini (tháng 7/2026).
+    // LƯU Ý: Google đã đổi định dạng API key từ "AIzaSy..." (Standard key) sang
+    // "AQ.Ab..." (Auth key) kể từ tháng 6/2026. Auth key mới KHÔNG dùng ổn định
+    // qua query param "?key=..." như trước — phải gửi qua header "X-goog-api-key".
+    const model = 'gemini-flash-latest';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     const geminiRes = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-goog-api-key': apiKey
+      },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
