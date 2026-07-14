@@ -1141,17 +1141,27 @@ askAiBtn.onclick = async () => {
   askAiInput.value = '';
   askAiBtn.disabled = true;
   addMsg(q, 'user');
+  addMsg('Đang hỏi AI, vui lòng đợi vài giây...', 'bot');
+  const thinkingMsg = chatWindow.lastElementChild;
 
-  const context = `(Bối cảnh khách hàng, nếu có: giới tính ${state.gioiTinh||'chưa rõ'}, ${state.cao?state.cao+'cm':''} ${state.nang?state.nang+'kg':''}, phong cách ${PHONGCACH_LABEL[state.phongCach]||'chưa rõ'}, ngân sách ${NGANSACH_LABEL[state.nganSach]||'chưa rõ'}.)`;
-  const prompt = `Bạn là stylist tư vấn thời trang thân thiện cho shop "Thước Lụa". Khách hỏi: "${q}". ${context} Trả lời ngắn gọn (2-4 câu), tự nhiên, hữu ích. Chỉ trả lời bằng đúng đoạn văn xuôi đó, không thêm tiêu đề, không đánh số câu, không dùng markdown, không giải thích cấu trúc câu trả lời.`;
+  try{
+    const context = `(Bối cảnh khách hàng, nếu có: giới tính ${state.gioiTinh||'chưa rõ'}, ${state.cao?state.cao+'cm':''} ${state.nang?state.nang+'kg':''}, phong cách ${PHONGCACH_LABEL[state.phongCach]||'chưa rõ'}, ngân sách ${NGANSACH_LABEL[state.nganSach]||'chưa rõ'}.)`;
+    const prompt = `Bạn là stylist tư vấn thời trang thân thiện cho shop "Thước Lụa". Khách hỏi: "${q}". ${context} Trả lời ngắn gọn (2-4 câu), tự nhiên, hữu ích. Chỉ trả lời bằng đúng đoạn văn xuôi đó, không thêm tiêu đề, không đánh số câu, không dùng markdown, không giải thích cấu trúc câu trả lời.`;
 
-  const reply = await hoiAI(prompt);
-  if(reply){
-    addMsg(reply, 'bot');
-  } else {
-    addMsg('Xin lỗi, AI thật chưa được cấu hình (xem README.md để bật Gemini AI) nên mình chưa trả lời được câu hỏi tự do này. Bạn vẫn có thể dùng luồng tư vấn phối đồ có sẵn bên trên nhé.', 'bot');
+    const reply = await hoiAI(prompt);
+    thinkingMsg.remove();
+    if(reply){
+      addMsg(reply, 'bot');
+    } else {
+      addMsg('Xin lỗi, mình không hỏi được AI thật lúc này (có thể do vượt hạn mức miễn phí/phút, hoặc server đang khởi động lại). Bạn thử lại sau vài giây, hoặc mở Console (F12) để xem lỗi chi tiết.', 'bot');
+    }
+  } catch(err){
+    console.error('Lỗi ô Hỏi AI:', err);
+    if(thinkingMsg && thinkingMsg.parentNode) thinkingMsg.remove();
+    addMsg('Đã có lỗi không mong muốn khi hỏi AI. Bạn thử lại nhé.', 'bot');
+  } finally {
+    askAiBtn.disabled = false; // LUÔN bật lại nút, dù thành công hay lỗi
   }
-  askAiBtn.disabled = false;
 };
 askAiInput.addEventListener('keydown', (e) => {
   if(e.key === 'Enter'){ askAiBtn.click(); }
