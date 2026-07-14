@@ -62,7 +62,11 @@ module.exports = async function handler(req, res) {
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.8,
-          maxOutputTokens: 300
+          maxOutputTokens: 500,
+          // Tắt bước "suy nghĩ" (thinking) của model — với các câu hỏi ngắn gọn
+          // như tư vấn thời trang, thinking chỉ làm chậm và đôi khi khiến model
+          // trả về văn bản nháp/cấu trúc lạ thay vì câu trả lời trực tiếp.
+          thinkingConfig: { thinkingBudget: 0 }
         }
       })
     });
