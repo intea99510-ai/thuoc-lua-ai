@@ -333,11 +333,9 @@
 
 <script>
 /* ============== CẤU HÌNH DỊCH VỤ MIỄN PHÍ ==============
-   Điền URL + anon key Supabase của bạn vào đây sau khi làm theo README.md.
-   Nếu để trống, web vẫn chạy bình thường với dữ liệu mẫu có sẵn (chế độ offline demo). */
-const SUPABASE_URL = ''; // ví dụ: 'https://xxxxxxxx.supabase.co'
-const SUPABASE_ANON_KEY = ''; // anon public key, KHÔNG phải service_role key
-
+ */
+const SUPABASE_URL = ''; 
+const SUPABASE_ANON_KEY = ''; 
 let supabaseClient = null;
 let dbReady = false;
 if(SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase){
