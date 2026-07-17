@@ -41,7 +41,7 @@ create policy "Cho phép ghi log chat công khai"
   on chat_logs for insert
   with check (true);
 
--- 3) DỮ LIỆU MẪU (copy nguyên từ mảng PRODUCTS trong file HTML gốc) --
+-- 3) DỮ LIỆU MẪU  --
 insert into products (loai, nhom, gioi_tinh, ten, mua, mau, phong_cach, gia, mota, keyword) values
 ('ao_dai','full','nu','Áo dài voan hoạ tiết nhẹ nhàng','xuan_he','pastel','basic',280000,'Voan mềm nhẹ, hoạ tiết nhỏ tinh tế, mức giá phổ thông dễ mua.','áo dài voan hoạ tiết nhẹ'),
 ('ao_dai','full','nu','Áo dài lụa truyền thống','xuan_he','sang','cong_so',450000,'Lụa tơ tằm mỏng nhẹ, form ôm nhẹ, tông màu sáng nền nã.','áo dài lụa nữ truyền thống'),
